@@ -30,6 +30,35 @@
             - Facility
             - LocationType
 
+    # <Public Management>
+    - Document:
+        SubClassOf: "owl:Thing"
+
+    - DirectiveSourceDocument:
+        # source or reference document for rules
+        SubClassOf: Document
+
+    - Directive:
+        SubClassOf: "owl:Thing"
+
+    # </Public Management>
+
+- multiple_owl_classes:
+    # <Relation-Concepts>
+    # These concepts model n-ary relations, see https://www.w3.org/TR/swbp-n-aryRelations/#pattern1
+
+    - X_RelationConcept:
+        SubClassOf: "owl:Thing"
+
+    - X_DocumentReference_RC:
+        SubClassOf: X_RelationConcept
+        # note: yamlpyowl will automatically create a role `X_hasDocumentReference_RC`
+        X_associatedWithClasses:
+            - Directive
+
+    # </Relation-Concepts>
+
+
 
 # ######################################################################################################################
 
@@ -48,38 +77,76 @@
               - Transitive
         Inverse: hasPart
 
+- owl_object_property:
+    hasDirective:
+        Domain: GeographicEntity
+        Range: Directive
+
+- owl_object_property:
+    hasSourceDocument:
+        Domain: "owl:Thing"
+        Range: Document
+        Characteristics:
+              - Functional
+
+- owl_object_property:
+    appliesTo:
+        Domain: DirectiveSourceDocument
+        Range: GeographicEntity
+
+- owl_data_property:
+    hasSection:
+        Domain: "owl:Thing"
+        Range: str
+        Characteristics:
+              - Functional
+
+# ######################################################################################################################
+
+- swrl_rule:
+    name: top_down
+    label: "Meaning: A directive which is valid in a GeographicEntity is valid in all its parts as well"
+    src: "GeographicEntity(?ge), hasPart(?ge, ?p), hasDirective(?ge, ?r) -> hasDirective(?p, ?r)"
+
+
+- swrl_rule:
+    name: applicable_doc
+    label: "Meaning: All directives which reference a DirectiveSourceDocument should apply in the GeographicEntities"
+    src: >
+        Directive(?d), X_hasDocumentReference_RC(?d, ?dr), hasSourceDocument(?dr, ?doc),
+        appliesTo(?doc, ?ge) -> hasDirective(?ge, ?d)
 
 
 # ######################################################################################################################
 
 - owl_multiple_individuals:
-      types:
-          - District
-      names:
-          - leipzig
-          - dresden
-          - bautzen
-          - zwickau
-          - erzgebirgskreis
-          - goerlitz
-          - erlangen
-          - munich
-          - regensburg
-          - rosenheim
-          - hof
-          - passau
-          - bamberg
+    types:
+        - District
+    names:
+        - leipzig
+        - dresden
+        - bautzen
+        - zwickau
+        - erzgebirgskreis
+        - goerlitz
+        - erlangen
+        - munich
+        - regensburg
+        - rosenheim
+        - hof
+        - passau
+        - bamberg
 
 #    federal states
 
 - owl_multiple_individuals:
-      names:
-          - saxony
-          - bavaria
-          - brandenburg
-          - thuringia
-      types:
-          - FederalState
+    names:
+        - saxony
+        - bavaria
+        - brandenburg
+        - thuringia
+    types:
+        - FederalState
 
 - owl_individual:
     germany:
@@ -110,3 +177,68 @@
             - germany:
                 - bavaria
                 - saxony
+
+# some dummy directives
+- owl_multiple_individuals:
+    types:
+        - Directive
+    names:
+        - dir_rule1
+        - dir_rule2
+        - dir_rule3
+        - dir_rule4
+        - dir_rule5
+
+
+- owl_individual:
+    LV_Sn_CoViD:
+        types:
+            - DirectiveSourceDocument
+        label:
+            - "SächsCoronaSchVO 2020-09-29"
+
+
+- owl_multiple_individuals:
+    types:
+        - DirectiveSourceDocument
+    names:
+        - law_book_of_germany
+        - law_book_of_saxony
+        - law_book_of_bavaria
+        - law_book_of_dresden
+        - partially_redundant_law_book_of_dresden
+
+- property_facts:
+    appliesTo:
+        Facts:
+            - law_book_of_germany:
+                  - germany
+            - law_book_of_saxony:
+                  - saxony
+            - LV_Sn_CoViD:
+                  - saxony
+            - law_book_of_bavaria:
+                  - bavaria
+            - law_book_of_dresden:
+                - dresden
+
+- relation_concept_facts:
+    dir_rule1:
+        # ternary relation. Meaning: <Directive dir_rule1>  is specified in "§1.3" of law_book_of_germany
+        X_hasDocumentReference_RC:
+            - hasSourceDocument: law_book_of_germany
+              hasSection: "§ 1.1"
+
+    dir_rule2:
+        X_hasDocumentReference_RC:
+            - hasSourceDocument: LV_Sn_CoViD
+              hasSection: "§ 1.5"
+
+    dir_rule3:
+        X_hasDocumentReference_RC:
+            - hasSourceDocument: law_book_of_dresden
+              hasSection: "§ 42"
+    dir_rule5:
+        X_hasDocumentReference_RC:
+            - hasSourceDocument: LV_Sn_CoViD
+              hasSection: "§ 123"

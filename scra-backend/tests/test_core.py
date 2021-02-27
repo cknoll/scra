@@ -16,16 +16,36 @@ class TestCore(unittest.TestCase):
     def setUp(self):
         # prevent that the tests do influence each other -> create a new world each time
         self.world = ypo.owl2.World()
+        path = os.path.join(PATH_KNOWLEDGEBASE, "general", "world.yml")
+        self.onto = ypo.OntologyManager(path, self.world)
 
     def test_regional_structure(self):
-        path = os.path.join(PATH_KNOWLEDGEBASE, "general", "world.yml")
-        onto = ypo.OntologyManager(path, self.world)
-        n = onto.n
+        n = self.onto.n
 
         self.assertTrue(n.leipzig in n.saxony.hasPart)
-        self.assertTrue("dresden" in onto.name_mapping)
+        self.assertTrue("dresden" in self.onto.name_mapping)
         self.assertFalse(n.leipzig in n.bavaria.hasPart)
 
-        onto.sync_reasoner(infer_property_values=True, infer_data_property_values=True)
+        self.onto.sync_reasoner(infer_property_values=True, infer_data_property_values=True)
 
         self.assertTrue(n.bamberg in n.germany.hasPart)
+        self.assertEqual(n.LV_Sn_CoViD.appliesTo, [n.saxony])
+
+        self.assertTrue(n.dir_rule2 in n.dresden.hasDirective)
+        self.assertTrue(n.dir_rule3 in n.dresden.hasDirective)
+        self.assertFalse(n.dir_rule2 in n.munich.hasDirective)
+
+    def test_query_rules_for_region(self):
+        n = self.onto.n
+        self.onto.sync_reasoner(infer_property_values=True, infer_data_property_values=True)
+
+        SM = scra.SemanticManager(self.onto)
+        res = SM.get_directives_for_region("munich")
+        self.assertEquals(res, {n.dir_rule1})
+
+        res = SM.get_directives_for_region("dresden")
+        self.assertEquals(res, {n.dir_rule1, n.dir_rule2, n.dir_rule3, n.dir_rule5})
+
+        res = SM.get_directives_for_region("leipzig")
+        self.assertEquals(res, {n.dir_rule1, n.dir_rule2, n.dir_rule5})
+
