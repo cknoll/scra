@@ -7,6 +7,7 @@ steps:
 - name: test
   image: carvk/java_python:openjdk15_python38
   commands:
+  - pip install git+https://github.com/github.com/cknoll/yamlpyowl.git
   - cd scra-backend
   - pip install -r requirements.txt
   - pip install .

@@ -1,0 +1,112 @@
+---
+
+# This yml-file models which rules ("directives") apply in which regions, while taking a given structure for geographic
+# entities into account (District ∈ FederalState ∈ NationalState). Its main purpose is to explore which OWL-features
+# are most important for this purpose and how they could be represented in YAML.
+
+# The background motivation for modeling region-dependent rules is to formally represent different regulations in
+# different regions of germany during COVID19 pandemic.
+
+- iri: "https://w3id.org/yet/undefined/regional-rules-ontology#"
+
+- multiple_owl_classes:
+    - GeographicEntity:
+        SubClassOf: "owl:Thing"
+    - NationalState:
+        SubClassOf: GeographicEntity
+    - FederalState:
+        SubClassOf: GeographicEntity
+    - District:
+        SubClassOf: GeographicEntity
+
+    - LocationType:
+        SubClassOf: "owl:Thing"
+
+    - Facility:
+        SubClassOf: "owl:Thing"
+
+    - TrainStation:
+        SubClassOf:
+            - Facility
+            - LocationType
+
+
+# ######################################################################################################################
+
+
+- owl_object_property:
+    hasPart:
+        Domain: GeographicEntity
+        Range: GeographicEntity
+        Characteristics:
+              - Transitive
+- owl_inverse_property:
+    isPartOf:
+        Domain: GeographicEntity
+        Range: GeographicEntity
+        Characteristics:
+              - Transitive
+        Inverse: hasPart
+
+
+
+# ######################################################################################################################
+
+- owl_multiple_individuals:
+      types:
+          - District
+      names:
+          - leipzig
+          - dresden
+          - bautzen
+          - zwickau
+          - erzgebirgskreis
+          - goerlitz
+          - erlangen
+          - munich
+          - regensburg
+          - rosenheim
+          - hof
+          - passau
+          - bamberg
+
+#    federal states
+
+- owl_multiple_individuals:
+      names:
+          - saxony
+          - bavaria
+          - brandenburg
+          - thuringia
+      types:
+          - FederalState
+
+- owl_individual:
+    germany:
+        types:
+            - NationalState
+        label:
+            - Federal Republic of Germany
+            - Bundesrepublik Deutschland
+
+- property_facts:
+    hasPart:
+        Facts:
+            - saxony:
+                - leipzig
+                - dresden
+                - bautzen
+                - zwickau
+                - erzgebirgskreis
+                - goerlitz
+            - bavaria:
+                - erlangen
+                - munich
+                - regensburg
+                - rosenheim
+                - hof
+                - passau
+                - bamberg
+            - germany:
+                - bavaria
+                - saxony

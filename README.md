@@ -3,14 +3,16 @@
 
 # Semantic Corona Rule Assistant (SCRA)
 
-**Important Notice**: This project is currently in experimental early development an not ready for production!
+**Important Notices**:
+- This project is currently in experimental early development an not ready for production!
+- Obviously, the "knowledge" in this repository is at most as trustworthy as those who have write access to this repository. Especially, the assertions documented in this repository must not be interpreted as legal advice.
 
 
 ## Motivation
 
 The COVID-19 pandemic affects many countries all over the world. With aim of containment most countries have put adopted a *set of rules* which restricts every days life. Moreover, the rules may vary considerably not only *between* countries but also *within* countries. Communicating such rules to the population is nontrivial, especially as the rules may change over time and also the regions where which rules apply. Media coverage often concentrates on "interesting" differences and suggested legislation updates which are discussed but not (yet) valid. The acutal legal documents are often impractical for most people (too long, too complicated, low relevance density). All this leads to potential confusion which rules actually apply. Confusion, however, harms compliance with the rules and thus contributes to less effective containment and thus more societal and individual damage.
 
-SCRA aims to mitigate these issues by providing a medium for simple and clear communication of those rules which are currently relevant to the user. This is done by providing a simple web front end for accessing a knowledge base which contains a semantic representation of the rules.
+SCRA aims to mitigate these issues by providing a medium for simple, clear traceable communication of those rules which are currently relevant to the user. This is done by providing a simple web front end for accessing a knowledge base which contains a semantic representation of the rules.
 
 
 ## Back End: Repo-based Knowledge Base
