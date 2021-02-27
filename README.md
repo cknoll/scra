@@ -1,3 +1,6 @@
+[![Build Status](https://cloud.drone.io/api/badges/cknoll/scra/status.svg)](https://cloud.drone.io/cknoll/scra)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 # Semantic Corona Rule Assistant (SCRA)
 
 **Important Notice**: This project is currently in experimental early development an not ready for production!
