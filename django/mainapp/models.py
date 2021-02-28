@@ -15,6 +15,9 @@ class BaseModel(models.Model):
     def __repr__(self):
         return f'<{type(self).__name__} "{self.name}">'
 
+    def repr(self):
+        return repr(self)
+
 
 class SourceDocument(BaseModel):
     id = models.AutoField(primary_key=True)

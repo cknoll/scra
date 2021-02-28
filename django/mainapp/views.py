@@ -1,9 +1,8 @@
-import os
-import json
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseServerError, HttpResponseRedirect
 from django.views import View
-from mainapp import models
+from . import models
+from . import core
 from ipydex import IPS
 
 
@@ -26,12 +25,9 @@ class QueryView(View):
         ge_str = request.POST.get("GeographicEntity")
         if not ge_str:
             return redirect(reverse("query-page"))
-        else:
-            ge = models.GeographicEntity.objects.filter(name=ge_str).first()
 
-            directive_list = []
-
-        context = {"result": ge, "directive_list": directive_list}
+        ge = models.GeographicEntity.objects.filter(name=ge_str).first()
+        context = {"result_ge": ge, "directive_list": core.get_directives_for_ge(ge_str)}
 
         return render(request, "mainapp/query.html", context)
 

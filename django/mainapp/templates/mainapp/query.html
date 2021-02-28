@@ -5,16 +5,22 @@
 {# unit test comment #}
 <!--utc_query_page-->
 
-{% if result%}
+{% if result_ge %}
 <p>
-Result: {{result}}
-    <br/>
-Directives: {{directive_list}}
+Resulting Direcitves for  {{result_ge.name}}:
 </p>
+<h4>Directives:</h4>
+<ol>
+{% for directive in directive_list %}
+    <li>{{directive.repr}}</li>
+
+
+{% endfor %}
+</ol>
 <hr class="hr_style_gradient opacity30">
 {% endif %}
 
-<h3>Query</h3>
+<h3>New Query</h3>
 
 
 <form action="" method="post" class="form-horizontal">

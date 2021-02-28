@@ -108,6 +108,19 @@ class Command(BaseCommand):
         dr_entities = RM.om.n.Directive.instances()
         convert_entities(models.Directive, dr_entities, source_document=get_source_doc, section=get_section)
 
-        self.stdout.write("working")
+        for ge in ge_entities:
+            regional_dr_entities = ge.hasDirective
+
+            ge_object = entity_object_mapping[ge.iri]
+
+            for rdre in regional_dr_entities:
+                rdre_object = entity_object_mapping[rdre.iri]
+
+                # add entry to  ManyToManyField
+                ge_object.applying_directives.add(rdre_object)
+
+        dd = RM.om.n.dresden
         IPS(print_tb=False)
+
+
         self.stdout.write(self.style.SUCCESS("Done"))

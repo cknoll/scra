@@ -96,7 +96,7 @@ class RuleManager(object):
             assert len(outer_rule_dict) == 1
             inner_rule_dict = outer_rule_dict["Directive"]
 
-            rule_name = f"_{sd_name}{i+1:03d}"
+            rule_name = f"{sd_name}_{i+1:03d}"
 
             doc_ref = self.om.n.X_DocumentReference_RC(
                 name=f"{rule_name}_dref", hasSourceDocument=source_doc, hasSection=inner_rule_dict["section"]
