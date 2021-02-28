@@ -13,6 +13,7 @@ steps:
   - pip install .
   - python -m unittest discover tests
   - cd ../django
+  - pip install -r requirements.txt
   - python3 manage.py test
 
 # To save energy and resources ci should only run for a few branches
