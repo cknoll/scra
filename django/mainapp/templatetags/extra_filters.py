@@ -3,13 +3,10 @@ from django.conf import settings
 from scra_core.release import __version__
 
 import markdown
-import mdx_math
 
 register = template.Library()
 
-# see https://python-markdown.github.io/reference/#extensions
-md_ext = mdx_math.MathExtension(enable_dollar_delimiter=True)
-md = markdown.Markdown(extensions=["extra", md_ext])
+md = markdown.Markdown(extensions=["extra"])
 
 
 @register.filter
