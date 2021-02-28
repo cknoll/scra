@@ -56,4 +56,4 @@ class GeographicEntity(BaseModel):
         null=True,
         blank=False,
     )
-    applying_direcitves = models.ManyToManyField(Directive)
+    applying_directives = models.ManyToManyField(Directive)
