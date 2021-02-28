@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.home_page_view, name='landingpage'),
     path('form/<int:form_data_len>', views.home_page_view, name='landingpage_with_form_data'),
+    path('query', views.QueryView.as_view(), name='query-page'),
     path(r'debug', views.debug_view, name='imprint-page'),
     path(r'debug', views.debug_view, name='privacy-page'),
     path(r'debug', views.debug_view, name='contact-page'),
