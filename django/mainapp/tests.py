@@ -1,5 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
+from . import unittest_helpers as uh
+from django.core.management import call_command
 from ipydex import IPS
 
 # The tests can be run with
@@ -22,6 +24,22 @@ class TestMainApp1(TestCase):
         # this is a simple mechanism to ensure the desired content actually was delivered
         self.assertEquals(res.status_code, 200)
         self.assertContains(res, "utc_landing_page")
+
+    def test_query1(self):
+        call_command("populate_db_from_ontology", flush=True)
+
+        url = reverse("query-page")
+        res = self.client.get(url)
+        self.assertEquals(res.status_code, 200)
+        self.assertContains(res, "utc_query_page")
+
+        form = uh.get_first_form(res)
+
+        form_values = {"GeographicEntity": "saxony", "tag1": "", "tag2": ""}
+        post_data = uh.generate_post_data_for_form(form, spec_values=form_values)
+
+        res2 = self.client.post(url, post_data)
+        self.assertContains(res2, "utc_number_of_directives:7")
 
     def test_debug1(self):
         res = self.client.get(reverse("debugpage0"))

@@ -68,6 +68,12 @@ class Command(BaseCommand):
             help="omit running the reasoner (increase performance during testing)",
         )
 
+        parser.add_argument(
+            "--interactive",
+            action="store_true",
+            help="start ipython shell after finishing command (useful during testing)",
+        )
+
     def handle(self, *args, **options):
 
         RM = scra.RuleManager(settings.PATH_KNOWLEDGEBASE)
@@ -119,8 +125,9 @@ class Command(BaseCommand):
                 # add entry to  ManyToManyField
                 ge_object.applying_directives.add(rdre_object)
 
-        dd = RM.om.n.dresden
-        IPS(print_tb=False)
-
+        if options.get("interactive"):
+            # this is usefule during development
+            dd = RM.om.n.dresden
+            IPS(print_tb=False)
 
         self.stdout.write(self.style.SUCCESS("Done"))

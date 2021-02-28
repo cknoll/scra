@@ -9,7 +9,10 @@ def get_directives_for_ge(ge_name: str) -> list:
     """
 
     ge = models.GeographicEntity.objects.filter(name=ge_name).first()
-    directive_list = list(ge.applying_directives.all())
+    if ge:
+        directive_list = list(ge.applying_directives.all())
+    else:
+        directive_list = []
 
     return directive_list
 
