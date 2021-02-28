@@ -1,0 +1,6 @@
+django
+django_nose
+rednose
+ipydex
+django-bleach
+markdown
