@@ -9,7 +9,7 @@ register = template.Library()
 
 # see https://python-markdown.github.io/reference/#extensions
 md_ext = mdx_math.MathExtension(enable_dollar_delimiter=True)
-md = markdown.Markdown(extensions=['extra', md_ext])
+md = markdown.Markdown(extensions=["extra", md_ext])
 
 
 @register.filter
@@ -27,5 +27,6 @@ def get_last_deployment(_):
 
     last_deployment = getattr(settings, "LAST_DEPLOYMENT", "<not available>")
     return last_deployment
+
 
 # maybe a restart of the server is neccessary after chanching this file

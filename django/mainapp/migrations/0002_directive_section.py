@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mainapp', '0001_initial'),
+        ("mainapp", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='directive',
-            name='section',
+            model_name="directive",
+            name="section",
             field=models.CharField(max_length=100, null=True),
         ),
     ]

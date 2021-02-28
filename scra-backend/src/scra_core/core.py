@@ -98,13 +98,11 @@ class RuleManager(object):
 
             rule_name = f"_{sd_name}{i+1:03d}"
 
-            doc_ref = self.om.n.X_DocumentReference_RC(name=f"{rule_name}_dref", hasSourceDocument=source_doc,
-                                                       hasSection=inner_rule_dict["section"])
+            doc_ref = self.om.n.X_DocumentReference_RC(
+                name=f"{rule_name}_dref", hasSourceDocument=source_doc, hasSection=inner_rule_dict["section"]
+            )
             rule = self.om.n.Directive(name=rule_name, X_hasDocumentReference_RC=[doc_ref])
-
 
     def _resolve_name(self, name):
 
         return self.om.name_mapping[name]
-
-

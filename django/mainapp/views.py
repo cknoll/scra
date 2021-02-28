@@ -13,13 +13,12 @@ def home_page_view(request):
 
     context = {"all_ge": all_ge}
 
-    return render(request, 'mainapp/landing.html', context)
+    return render(request, "mainapp/landing.html", context)
 
 
 class QueryView(View):
     def get(self, request):
-        context = {
-        }
+        context = {}
 
         return render(request, "mainapp/query.html", context)
 
@@ -32,10 +31,7 @@ class QueryView(View):
 
             directive_list = []
 
-        context = {
-            "result": ge,
-            "directive_list": directive_list
-        }
+        context = {"result": ge, "directive_list": directive_list}
 
         return render(request, "mainapp/query.html", context)
 
@@ -51,4 +47,4 @@ def debug_view(request, xyz=0):
     elif xyz == 2:
         return HttpResponseServerError("Errormessage")
 
-    return HttpResponse('Some plain message')
+    return HttpResponse("Some plain message")

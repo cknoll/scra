@@ -11,6 +11,7 @@ import scra_core as scra
 
 entity_object_mapping = {}
 
+
 def convert_entities(model_class: Type[models.BaseModel], onto_entities, **kwargs):
     """
 
@@ -24,7 +25,6 @@ def convert_entities(model_class: Type[models.BaseModel], onto_entities, **kwarg
         new_instance = model_class(name=e.name)
 
         entity_object_mapping[e.iri] = new_instance
-
 
         for attr_name, attr_getter in kwargs.items():
 
@@ -48,7 +48,8 @@ class Command(BaseCommand):
     Run the reasoner and load relevant objects into database
 
     """
-    help = 'Run the reasoner and load relevant objects into database.'
+
+    help = "Run the reasoner and load relevant objects into database."
 
     def add_arguments(self, parser):
         # Positional arguments
@@ -56,15 +57,15 @@ class Command(BaseCommand):
 
         # Named (optional) arguments
         parser.add_argument(
-            '--flush',
-            action='store_true',
-            help='delete the db before doing anything else',
+            "--flush",
+            action="store_true",
+            help="delete the db before doing anything else",
         )
 
         parser.add_argument(
-            '--no-reasoner',
-            action='store_true',
-            help='omit running the reasoner (increase performance during testing)',
+            "--no-reasoner",
+            action="store_true",
+            help="omit running the reasoner (increase performance during testing)",
         )
 
     def handle(self, *args, **options):
@@ -109,4 +110,4 @@ class Command(BaseCommand):
 
         self.stdout.write("working")
         IPS(print_tb=False)
-        self.stdout.write(self.style.SUCCESS('Done'))
+        self.stdout.write(self.style.SUCCESS("Done"))

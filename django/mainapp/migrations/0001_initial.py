@@ -8,45 +8,44 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Directive',
+            name="Directive",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=1000, null=True)),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=1000, null=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='SourceDocument',
+            name="SourceDocument",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=1000, null=True)),
-                ('source_uri', models.CharField(max_length=1000, null=True)),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=1000, null=True)),
+                ("source_uri", models.CharField(max_length=1000, null=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='GeographicEntity',
+            name="GeographicEntity",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=1000, null=True)),
-                ('applying_direcitves', models.ManyToManyField(to='mainapp.Directive')),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=1000, null=True)),
+                ("applying_direcitves", models.ManyToManyField(to="mainapp.Directive")),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.AddField(
-            model_name='directive',
-            name='source_document',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mainapp.sourcedocument'),
+            model_name="directive",
+            name="source_document",
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="mainapp.sourcedocument"),
         ),
     ]
