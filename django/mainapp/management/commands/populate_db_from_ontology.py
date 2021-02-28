@@ -2,13 +2,16 @@ from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from django.conf import settings
 from mainapp import models
+from typing import Type
 
 from ipydex import IPS
 
 import scra_core as scra
 
 
-def convert_entities(model_class: models.BaseModel, onto_entities):
+entity_object_mapping = {}
+
+def convert_entities(model_class: Type[models.BaseModel], onto_entities, **kwargs):
     """
 
     :param model_class:           target model
@@ -19,6 +22,24 @@ def convert_entities(model_class: models.BaseModel, onto_entities):
     for e in onto_entities:
         # noinspection PyCallingNonCallable
         new_instance = model_class(name=e.name)
+
+        entity_object_mapping[e.iri] = new_instance
+
+
+        for attr_name, attr_getter in kwargs.items():
+
+            if isinstance(attr_getter, str):
+                property_name = attr_getter
+                # evaluate the property from the ontology
+                value = getattr(e, property_name)
+            elif callable(attr_getter):
+                value = attr_getter(e)
+            else:
+                value = None
+
+            # and store it to the db-object
+            setattr(new_instance, attr_name, value)
+
         new_instance.save()
 
 
@@ -40,19 +61,51 @@ class Command(BaseCommand):
             help='delete the db before doing anything else',
         )
 
+        parser.add_argument(
+            '--no-reasoner',
+            action='store_true',
+            help='omit running the reasoner (increase performance during testing)',
+        )
+
     def handle(self, *args, **options):
 
         RM = scra.RuleManager(settings.PATH_KNOWLEDGEBASE)
-        RM.om.sync_reasoner(infer_property_values=True, infer_data_property_values=True)
 
         if options.get("flush"):
             call_command("flush", verbosity=0, interactive=False)
 
-        # add geographic entities
+        if not options.get("no_reasoner"):
+            RM.om.sync_reasoner(infer_property_values=True, infer_data_property_values=True)
+
+        # add geographic entities, source documents, directives
 
         ge_entities = RM.om.n.GeographicEntity.instances()
-
         convert_entities(models.GeographicEntity, ge_entities)
+
+        sd_entities = RM.om.n.DirectiveSourceDocument.instances()
+        convert_entities(models.SourceDocument, sd_entities, source_uri="hasSourceURI")
+
+        def get_source_doc(entity):
+
+            # these attributes are specified in world.owl.yml
+            ref = entity.X_hasDocumentReference_RC.first()
+            if ref:
+                sd_entity = ref.hasSourceDocument
+                return entity_object_mapping[sd_entity.iri]
+            else:
+                return None
+
+        def get_section(entity):
+
+            # these attributes are specified in world.owl.yml
+            ref = entity.X_hasDocumentReference_RC.first()
+            if ref:
+                return ref.hasSection
+            else:
+                return None
+
+        dr_entities = RM.om.n.Directive.instances()
+        convert_entities(models.Directive, dr_entities, source_document=get_source_doc, section=get_section)
 
         self.stdout.write("working")
         IPS(print_tb=False)

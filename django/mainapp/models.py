@@ -11,6 +11,9 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+    def __repr__(self):
+        return f'<{type(self).__name__} "{self.name}">'
+
 
 class SourceDocument(BaseModel):
     id = models.AutoField(primary_key=True)
@@ -22,13 +25,10 @@ class Directive(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1000, null=True, blank=False, )
     source_document = models.ForeignKey(SourceDocument, on_delete=models.CASCADE, null=False,)
+    section = models.CharField(max_length=100, null=True, blank=False, )
 
 
 class GeographicEntity(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1000, null=True, blank=False, )
     applying_direcitves = models.ManyToManyField(Directive)
-
-    def __repr__(self):
-        return f'<GeographicEntity "{self.name}">'
-

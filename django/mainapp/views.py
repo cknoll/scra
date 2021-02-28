@@ -30,8 +30,11 @@ class QueryView(View):
         else:
             ge = models.GeographicEntity.objects.filter(name=ge_str).first()
 
+            directive_list = []
+
         context = {
-            "result": ge
+            "result": ge,
+            "directive_list": directive_list
         }
 
         return render(request, "mainapp/query.html", context)

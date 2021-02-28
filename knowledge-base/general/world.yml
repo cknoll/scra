@@ -211,6 +211,7 @@
         - law_book_of_bavaria
         - law_book_of_dresden
         - partially_redundant_law_book_of_dresden
+        - law_book_of_irrelevance
 
 - property_facts:
     appliesTo:
@@ -242,6 +243,10 @@
         X_hasDocumentReference_RC:
             - hasSourceDocument: law_book_of_dresden
               hasSection: "§ 42"
+    dir_rule4:
+        X_hasDocumentReference_RC:
+            - hasSourceDocument: law_book_of_irrelevance
+              hasSection: "§ 100"
     dir_rule5:
         X_hasDocumentReference_RC:
             - hasSourceDocument: LV_Sn_CoViD
