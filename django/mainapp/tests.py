@@ -22,7 +22,6 @@ class TestMainApp1(TestCase):
         # this is a simple mechanism to ensure the desired content actually was delivered
         self.assertEquals(res.status_code, 200)
         self.assertContains(res, "utc_landing_page")
-        self.assertNotContains(res, "utc_debug_page")
 
     def test_debug1(self):
         res = self.client.get(reverse("debugpage0"))
@@ -37,4 +36,3 @@ class TestMainApp1(TestCase):
         # this will deliberately provoke an server error (http status code 500)
         res = self.client.get(reverse("debugpage_with_argument", kwargs={"xyz": 2}))
         self.assertEquals(res.status_code, 500)
-

@@ -12,8 +12,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+# this is the base dir of the django project (where manage.py lives)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PATH_KNOWLEDGEBASE = os.path.join(os.path.dirname(BASE_DIR), "knowledge-base")
 
 
 # Quick-start development settings - unsuitable for production

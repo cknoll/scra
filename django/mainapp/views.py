@@ -2,15 +2,16 @@ import os
 import json
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseServerError, HttpResponseRedirect
-from django.urls import reverse
-from django.conf import settings
-
+from mainapp import models
 from ipydex import IPS
 
 
 def home_page_view(request):
 
-    context = {}
+    all_ge = models.GeographicEntity.objects.all()
+
+
+    context = {"all_ge": all_ge}
 
     return render(request, 'mainapp/landing.html', context)
 
