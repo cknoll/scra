@@ -1,0 +1,37 @@
+%YAML 1.1
+---
+extends: "https://w3id.org/yet/undefined/regional-rules-ontology#"
+iri-suffix: "COVID19_rules_of_germany_2021-03-05"
+labels:
+  - "COVID19 rules of germany"
+
+source: "https://bundesregierung.de/corona.pdf"
+appliesTo: "germany"
+valid_from: 2021-03-05
+
+# end of header dict
+...
+---
+
+# start of rule list
+
+# Note: these rules are purely imaginary
+- Directive:
+    section: §1
+    text: >
+        Die Grenze nach Tschechien ist für den Personenverkehr grundsätzlich geschlossen. Ausnahmen regeln die betroffenen Bundesländer.
+    tags:
+        - Landesgrenze
+        - Bewegungsfreiheit
+        - Reisen
+        - Tschechien
+
+- Directive:
+    section: §2
+    text: >
+        Der Luftverkehr für Personen in Risikogebiete ist grundsätzlich verboten. Ausnahmegenemigungen erteilt das Auswärtige Amt.
+    tags:
+        - Luftverkehr
+        - Bewegungsfreiheit
+        - Tourismus
+        - Reisen

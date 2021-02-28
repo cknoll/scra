@@ -1,11 +1,8 @@
 ---
 
 # This yml-file models which rules ("directives") apply in which regions, while taking a given structure for geographic
-# entities into account (District ∈ FederalState ∈ NationalState). Its main purpose is to explore which OWL-features
-# are most important for this purpose and how they could be represented in YAML.
+# entities into account (District ∈ FederalState ∈ NationalState).
 
-# The background motivation for modeling region-dependent rules is to formally represent different regulations in
-# different regions of germany during COVID19 pandemic.
 
 - iri: "https://w3id.org/yet/undefined/regional-rules-ontology#"
 
@@ -97,6 +94,13 @@
 - owl_data_property:
     hasSection:
         Domain: "owl:Thing"
+        Range: str
+        Characteristics:
+              - Functional
+
+- owl_data_property:
+    hasSourceURI:
+        Domain: Document
         Range: str
         Characteristics:
               - Functional

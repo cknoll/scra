@@ -1,0 +1,33 @@
+%YAML 1.1
+---
+extends: "https://w3id.org/yet/undefined/regional-rules-ontology#"
+iri-suffix: "COVID19_rules_of_saxony_2021-03-05"
+labels:
+  - "COVID19 rules of saxony"
+
+source: "https://sachsen.de/corona.pdf"
+appliesTo: "saxony"
+valid_from: 2021-03-05
+
+# end of header dict
+...
+---
+
+# start of rule list
+
+# Note: these rules are currently purely imaginary (only for testing)
+- Directive:
+    section: §1
+    text: >
+        In Fahrzeugen des ÖPNV und Fernverkehrs gilt Maskenpflicht.
+    tags:
+        - Reisen
+        - ÖPNV
+        - Bahn
+
+- Directive:
+    section: §2
+    text: >
+        Gastronomiebetriebe sind für Gäste geschlossen.
+    tags:
+        - Gastronomie
