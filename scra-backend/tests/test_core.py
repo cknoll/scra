@@ -19,6 +19,10 @@ class TestCore(unittest.TestCase):
         path = os.path.join(PATH_KNOWLEDGEBASE, "general", "world.yml")
         self.om = ypo.OntologyManager(path, self.world)
 
+    def test_tags(self):
+        n = self.om.n
+        # IPS()
+
     def test_regional_structure(self):
         n = self.om.n
 

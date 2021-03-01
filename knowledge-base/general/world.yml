@@ -40,6 +40,73 @@
 
     # </Public Management>
 
+    # <Tags>
+- multiple_owl_classes:
+
+    - Tag:
+        SubClassOf: "owl:Thing"
+    - IndividualFreedom:
+        SubClassOf: Tag
+        labels:
+            - individuelle Freiheit @de_de
+    - FreedomOfMovement:
+        SubClassOf: IndividualFreedom
+        labels:
+            - Bewegungsfreiheit @de_de
+    - FreedomOfAssembly:
+        SubClassOf: IndividualFreedom
+        labels:
+            - Versammlungsfreiheit @de_de
+    - StateRelated:
+        SubClassOf: Tag
+        labels:
+            - Staatsbezogen @de_de
+    - StateBorder:
+        SubClassOf: StateRelated
+        labels:
+            - Landesgrenze @de_de
+    - Riskarea:
+        SubClassOf: StateRelated
+        labels:
+            - Risikogebiet @de_de
+    - Education:
+        SubClassOf: Tag
+        labels:
+            - Bildung @de_de
+    - School:
+        SubClassOf: Education
+        labels:
+            - Schule @de_de
+    - PrimarySchool:
+        SubClassOf: School
+        labels:
+            - Grundschule @de_de
+    - FinalClass:
+        SubClassOf: School
+        labels:
+            - Abschlussklasse @de_de
+    - SecondarySchool:
+        SubClassOf: School
+        labels:
+            - Weiterführende Schule @de_de
+    - Business:
+        SubClassOf: Tag
+        labels:
+            - Handel und Gewerbe @de_de
+    - Transport:
+        SubClassOf: Tag
+        labels:
+            - Transport und Reisen @de_de
+    - LocalPublicTransport:
+        SubClassOf: Transport
+        labels:
+            - ÖPNV @de_de
+    - PublicLongDistanceTransport:
+        SubClassOf: Transport
+        labels:
+            - Fernverkehr @de_de
+    # </Tags>
+
 - multiple_owl_classes:
     # <Relation-Concepts>
     # These concepts model n-ary relations, see https://www.w3.org/TR/swbp-n-aryRelations/#pattern1
