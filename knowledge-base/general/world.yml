@@ -45,6 +45,8 @@
 
     - Tag:
         SubClassOf: "owl:Thing"
+        labels:
+            - Schlagwort @de_de
     - IndividualFreedom:
         SubClassOf: Tag
         labels:
@@ -65,6 +67,14 @@
         SubClassOf: StateRelated
         labels:
             - Landesgrenze @de_de
+    - NeighborCountry:
+        SubClassOf: StateRelated
+        labels:
+            - Tschechien @de_de
+    - Czechia:
+        SubClassOf: NeighborCountry
+        labels:
+            - Nachbarland @de_de
     - Riskarea:
         SubClassOf: StateRelated
         labels:
@@ -93,18 +103,38 @@
         SubClassOf: Tag
         labels:
             - Handel und Gewerbe @de_de
-    - Transport:
+    - Gastronomy:
+        SubClassOf: Business
+        labels:
+            - Gastronomie @de_de
+    - GeneralTransport:
         SubClassOf: Tag
         labels:
             - Transport und Reisen @de_de
+    - Traveling:
+        SubClassOf: GeneralTransport
+        labels:
+            - Reisen @de_de
     - LocalPublicTransport:
-        SubClassOf: Transport
+        SubClassOf: Traveling
         labels:
             - ÖPNV @de_de
     - PublicLongDistanceTransport:
-        SubClassOf: Transport
+        SubClassOf: Traveling
         labels:
             - Fernverkehr @de_de
+    - Railway:
+        SubClassOf: Traveling
+        labels:
+            - Bahn @de_de
+    - Tourism:
+        SubClassOf: Traveling
+        labels:
+            - Tourismus @de_de
+    - AirTransport:
+        SubClassOf: Traveling
+        labels:
+            - Luftverkehr @de_de
     # </Tags>
 
 - multiple_owl_classes:

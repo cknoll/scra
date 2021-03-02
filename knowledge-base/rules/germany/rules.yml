@@ -9,7 +9,7 @@ source: "https://bundesregierung.de/corona.pdf"
 appliesTo: "germany"
 valid_from: 2021-03-05
 
-# this will select the appropriate labels
+# this will select the appropriate tag labels
 language: de_de
 
 # end of header dict

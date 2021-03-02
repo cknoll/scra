@@ -9,6 +9,9 @@ source: "https://sachsen.de/corona.pdf"
 appliesTo: "saxony"
 valid_from: 2021-03-05
 
+# this will select the appropriate tag labels
+language: de_de
+
 # end of header dict
 ...
 ---

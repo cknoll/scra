@@ -21,6 +21,7 @@ class TestCore(unittest.TestCase):
 
     def test_tags(self):
         n = self.om.n
+        RM = scra.RuleManager(PATH_KNOWLEDGEBASE, om=self.om)
         # IPS()
 
     def test_regional_structure(self):

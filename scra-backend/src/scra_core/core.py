@@ -1,11 +1,15 @@
 import os
-from typing import List, Tuple
+from typing import List, Tuple, Dict, Union
+from collections import defaultdict
 
 import yaml
 import yamlpyowl as ypo
 
-
 from ipydex import IPS
+
+from . import util
+
+LANGUAGE_CODES = ["de_de"]
 
 
 class SemanticManager(object):
@@ -45,6 +49,14 @@ class RuleManager(object):
 
         self.files = []
         self.raw_yaml_contents = []
+        self.directives: List[ypo.Thing] = []
+
+        # dict of items like [("de_de", <inner_dict1>), ...]
+        # where inner_dict1 consists of items like [(<label_str>, <tag_object>), ...]
+        self.tag_label_map : Dict[str, dict] = defaultdict(dict)
+
+        self._get_tags()
+
         self._get_all_files()
         self._load_rule_data()
         self._process_all_rule_data()
@@ -73,6 +85,24 @@ class RuleManager(object):
             assert ypo.check_type(raw_object, Tuple[dict, list])
             self._process_rule_document(raw_object)
 
+    def _get_tags(self):
+        # note that tags are classes, not individuals.
+        tag_entities = list(self.om.n.Tag.descendants())
+
+        for te in tag_entities:
+            for lc in LANGUAGE_CODES:
+                label = self._get_label_with_lc(te, lc)
+                self.tag_label_map[lc][label] = te
+
+    @staticmethod
+    def _get_label_with_lc(entity: ypo.Thing, lc: str) -> Union[str, None]:
+        for label_entry in entity.label:
+            lc_marker = f"@{lc}"
+            if label_entry.endswith(lc_marker):
+                return label_entry.replace(lc_marker, "").strip()
+            else:
+                return None
+
     def _process_rule_document(self, raw_tuple: Tuple[dict, list]):
 
         header_dict, rule_list = raw_tuple
@@ -80,6 +110,7 @@ class RuleManager(object):
         sd_name = header_dict["iri-suffix"]
         labels = header_dict["labels"]
         source_uri = header_dict["source"]
+        language_code = header_dict["language"]
         applies_to = [self._resolve_name(n) for n in ypo.ensure_list(header_dict["appliesTo"])]
 
         full_iri = f"{self.om.iri}{sd_name}"
@@ -96,13 +127,58 @@ class RuleManager(object):
             assert len(outer_rule_dict) == 1
             inner_rule_dict = outer_rule_dict["Directive"]
 
-            rule_name = f"{sd_name}_{i+1:03d}"
+            p_directive = Directive(self, inner_rule_dict, source_doc, i+1, language_code)
 
-            doc_ref = self.om.n.X_DocumentReference_RC(
-                name=f"{rule_name}_dref", hasSourceDocument=source_doc, hasSection=inner_rule_dict["section"]
-            )
-            rule = self.om.n.Directive(name=rule_name, X_hasDocumentReference_RC=[doc_ref])
+            doc_ref = p_directive.get_doc_ref()
+
+            # now create the ontological object
+            o_directive = self.om.n.Directive(name=p_directive.name, X_hasDocumentReference_RC=[doc_ref])
 
     def _resolve_name(self, name):
 
         return self.om.name_mapping[name]
+
+
+class Directive(object):
+    def __init__(self, rule_manager: RuleManager, inner_rule_dict: dict, source_doc: ypo.Thing, counter: int,
+                 language_code: str):
+        self.RM = rule_manager
+        self.inner_rule_dict = inner_rule_dict
+        self.source_doc = source_doc
+        self.counter = counter
+        self.language_code = language_code
+
+        self.section = inner_rule_dict["section"]
+        self.name = f"{self.source_doc.name}_{counter:03d}"
+
+        self.tags: List[ypo.Thing] = []
+        self._get_tags()
+
+    def get_doc_ref(self):
+        doc_ref = self.RM.om.n.X_DocumentReference_RC(
+            name=f"{self.name}_dref", hasSourceDocument=self.source_doc, hasSection=self.section
+        )
+
+        return doc_ref
+
+    def _get_tags(self) -> None:
+        """
+        Parse the natural language tags from the rule.yml files and match them to the owl-objects
+        """
+
+        tag_strings = self.inner_rule_dict.get("tags", [])
+
+        if not tag_strings:
+            msg = f"The rule {self.name} needs at least one tag."
+            raise ValueError(msg)
+
+        for ts in tag_strings:
+            tag_object = self.RM.tag_label_map[self.language_code].get(ts)
+
+            if tag_object is None:
+                print(util.yellow("Unmatched tag string:"), f'"{ts}"')
+
+            self.tags.append(tag_object)
+
+        # ensure uniqueness
+        self.tags = list(set(self.tags))
