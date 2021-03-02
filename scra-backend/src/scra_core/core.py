@@ -53,7 +53,7 @@ class RuleManager(object):
 
         # dict of items like [("de_de", <inner_dict1>), ...]
         # where inner_dict1 consists of items like [(<label_str>, <tag_object>), ...]
-        self.tag_label_map : Dict[str, dict] = defaultdict(dict)
+        self.tag_label_map: Dict[str, dict] = defaultdict(dict)
 
         self._get_tags()
 
@@ -127,7 +127,7 @@ class RuleManager(object):
             assert len(outer_rule_dict) == 1
             inner_rule_dict = outer_rule_dict["Directive"]
 
-            p_directive = Directive(self, inner_rule_dict, source_doc, i+1, language_code)
+            p_directive = Directive(self, inner_rule_dict, source_doc, i + 1, language_code)
 
             doc_ref = p_directive.get_doc_ref()
 
@@ -140,8 +140,9 @@ class RuleManager(object):
 
 
 class Directive(object):
-    def __init__(self, rule_manager: RuleManager, inner_rule_dict: dict, source_doc: ypo.Thing, counter: int,
-                 language_code: str):
+    def __init__(
+        self, rule_manager: RuleManager, inner_rule_dict: dict, source_doc: ypo.Thing, counter: int, language_code: str
+    ):
         self.RM = rule_manager
         self.inner_rule_dict = inner_rule_dict
         self.source_doc = source_doc

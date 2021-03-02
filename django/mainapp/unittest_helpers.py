@@ -8,7 +8,7 @@ def get_first_form(response):
     :param response:
     :return:
     """
-    bs = BeautifulSoup(response.content, 'html.parser')
+    bs = BeautifulSoup(response.content, "html.parser")
     forms = bs.find_all("form")
 
     return forms[0]
@@ -64,10 +64,10 @@ def generate_post_data_for_form(form, default_value="xyz", spec_values=None):
 
     post_data = {}
     for f in hidden_fields:
-        post_data[f.attrs['name']] = f.attrs['value']
+        post_data[f.attrs["name"]] = f.attrs["value"]
 
     for f in fields:
-        name = f.attrs.get('name')
+        name = f.attrs.get("name")
 
         if name is None:
             # ignore fields without a name (relevant for dropdown checkbox)

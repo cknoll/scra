@@ -15,4 +15,3 @@ def get_directives_for_ge(ge_name: str) -> list:
         directive_list = []
 
     return directive_list
-
