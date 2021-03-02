@@ -13,7 +13,8 @@ class BaseModel(models.Model):
         abstract = True
 
     def __repr__(self):
-        return f'<{type(self).__name__} "{self.name}">'
+        name = getattr(self, "name", "<noname>")
+        return f'<{type(self).__name__} "{name}">'
 
     def repr(self):
         return repr(self)
@@ -21,30 +22,14 @@ class BaseModel(models.Model):
 
 class SourceDocument(BaseModel):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(
-        max_length=1000,
-        null=True,
-        blank=False,
-    )
-    source_uri = models.CharField(
-        max_length=1000,
-        null=True,
-        blank=False,
-    )
+    name = models.CharField(max_length=1000, null=True, blank=False)
+    source_uri = models.CharField(max_length=1000, null=True, blank=False)
 
 
 class Directive(BaseModel):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(
-        max_length=1000,
-        null=True,
-        blank=False,
-    )
-    source_document = models.ForeignKey(
-        SourceDocument,
-        on_delete=models.CASCADE,
-        null=False,
-    )
+    name = models.CharField(max_length=1000, null=True, blank=False)
+    source_document = models.ForeignKey(SourceDocument, on_delete=models.CASCADE, null=False)
     section = models.CharField(
         max_length=100,
         null=True,
@@ -54,9 +39,5 @@ class Directive(BaseModel):
 
 class GeographicEntity(BaseModel):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(
-        max_length=1000,
-        null=True,
-        blank=False,
-    )
+    name = models.CharField(max_length=1000, null=True, blank=False)
     applying_directives = models.ManyToManyField(Directive)
