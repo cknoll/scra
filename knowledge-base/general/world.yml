@@ -41,6 +41,8 @@
     # </Public Management>
 
     # <Tags>
+# note that tags are modeled as classes to simplify subclassing
+# Association between directives and tags is done via class restrictions like `hasTag.some(MyTagClass)`
 - multiple_owl_classes:
 
     - Tag:
@@ -175,6 +177,11 @@
     hasDirective:
         Domain: GeographicEntity
         Range: Directive
+
+- owl_object_property:
+    hasTag:
+        Domain: Directive
+        Range: Tag
 
 - owl_object_property:
     hasSourceDocument:

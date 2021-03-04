@@ -26,10 +26,16 @@ class SourceDocument(BaseModel):
     source_uri = models.CharField(max_length=1000, null=True, blank=False)
 
 
+class Tag(BaseModel):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=1000, null=True, blank=False)
+
+
 class Directive(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1000, null=True, blank=False)
     source_document = models.ForeignKey(SourceDocument, on_delete=models.CASCADE, null=False)
+    tags = models.ManyToManyField(Tag)
     section = models.CharField(
         max_length=100,
         null=True,

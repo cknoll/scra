@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from . import unittest_helpers as uh
+from . import models
 from django.core.management import call_command
 from ipydex import IPS
 
@@ -24,6 +25,13 @@ class TestMainApp1(TestCase):
         # this is a simple mechanism to ensure the desired content actually was delivered
         self.assertEquals(res.status_code, 200)
         self.assertContains(res, "utc_landing_page")
+
+    def test_populate(self):
+
+        call_command("populate_db_from_ontology", flush=True, no_reasoner=True)
+
+        r = models.Directive.objects.filter(name__startswith="COVID19_rules_of_saxony").first()
+        self.assertEqual(len(r.tags.all()), 3)
 
     def test_query1(self):
         call_command("populate_db_from_ontology", flush=True)

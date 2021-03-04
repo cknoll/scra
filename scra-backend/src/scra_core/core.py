@@ -127,12 +127,14 @@ class RuleManager(object):
             assert len(outer_rule_dict) == 1
             inner_rule_dict = outer_rule_dict["Directive"]
 
-            p_directive = Directive(self, inner_rule_dict, source_doc, i + 1, language_code)
+            python_directive = Directive(self, inner_rule_dict, source_doc, i + 1, language_code)
 
-            doc_ref = p_directive.get_doc_ref()
+            doc_ref = python_directive.get_doc_ref()
 
             # now create the ontological object
-            o_directive = self.om.n.Directive(name=p_directive.name, X_hasDocumentReference_RC=[doc_ref])
+            owl_directive = self.om.n.Directive(name=python_directive.name, X_hasDocumentReference_RC=[doc_ref])
+
+            python_directive.add_restrictions_for_tags(owl_directive)
 
     def _resolve_name(self, name):
 
@@ -183,3 +185,12 @@ class Directive(object):
 
         # ensure uniqueness
         self.tags = list(set(self.tags))
+
+    def add_restrictions_for_tags(self, o_directive: ypo.Thing):
+
+        for tag_object in self.tags:
+            # note that tags are classes
+            evaluated_restriction = self.RM.om.n.hasTag.some(tag_object)
+
+            # applying the restricion
+            o_directive.is_a.append(evaluated_restriction)
