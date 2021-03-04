@@ -45,7 +45,7 @@ class RuleManager(object):
             self.om = om
         else:
             onto_path = os.path.join(basepath, "general", "world.yml")
-            self.om = ypo.OntologyManager(onto_path)
+            self.om = ypo.OntologyManager(onto_path, world=ypo.owl2.World())
 
         self.files = []
         self.raw_yaml_contents = []

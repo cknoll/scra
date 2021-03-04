@@ -33,7 +33,10 @@ class TestMainApp1(TestCase):
         r = models.Directive.objects.filter(name__startswith="COVID19_rules_of_saxony").first()
         self.assertEqual(len(r.tags.all()), 3)
 
-    def test_query1(self):
+    def test_query_with_tags(self):
+        call_command("populate_db_from_ontology", flush=True)
+
+    def test_query_response(self):
         call_command("populate_db_from_ontology", flush=True)
 
         url = reverse("query-page")
