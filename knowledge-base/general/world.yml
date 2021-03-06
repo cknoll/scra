@@ -72,11 +72,11 @@
     - NeighborCountry:
         SubClassOf: StateRelated
         labels:
-            - Tschechien @de_de
+            - Nachbarland @de_de
     - Czechia:
         SubClassOf: NeighborCountry
         labels:
-            - Nachbarland @de_de
+            - Tschechien @de_de
     - Riskarea:
         SubClassOf: StateRelated
         labels:
