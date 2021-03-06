@@ -114,7 +114,12 @@ class Command(BaseCommand):
 
         # note that tags are modelled as classes not as instances
         tag_entities = RM.om.n.Tag.descendants()
-        django_tag_entities = convert_entities(models.Tag, tag_entities)
+
+        # !! hcl
+        def get_tag_label(tag_entity):
+            return RM.tag_iri_label_map["de_de"][tag_entity.iri]
+
+        django_tag_entities = convert_entities(models.Tag, tag_entities, label=get_tag_label)
 
         # auxiliary functions to convert direcitves (must start with "get" or "add")
 

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from . import unittest_helpers as uh
-from . import models
+from . import models, core
 from django.core.management import call_command
 from ipydex import IPS
 
@@ -33,10 +33,7 @@ class TestMainApp1(TestCase):
         r = models.Directive.objects.filter(name__startswith="COVID19_rules_of_saxony").first()
         self.assertEqual(len(r.tags.all()), 3)
 
-    def test_query_with_tags(self):
-        call_command("populate_db_from_ontology", flush=True)
-
-    def test_query_response(self):
+    def test_query_without_tags(self):
         call_command("populate_db_from_ontology", flush=True)
 
         url = reverse("query-page")
@@ -51,6 +48,20 @@ class TestMainApp1(TestCase):
 
         res2 = self.client.post(url, post_data)
         self.assertContains(res2, "utc_number_of_directives:7")
+
+    def test_get_directives(self):
+
+        call_command("populate_db_from_ontology", flush=True, no_reasoner=False)
+
+        res = core.get_directives("saxony", "Reisen")
+
+        self.assertEquals(len(res), 3)
+
+        res = core.get_directives("saxony", "Bewegungsfreiheit")
+        self.assertEquals(len(res), 2)
+
+        res = core.get_directives("saxony", "Gastronomie")
+        self.assertEquals(len(res), 1)
 
     def test_debug1(self):
         res = self.client.get(reverse("debugpage0"))

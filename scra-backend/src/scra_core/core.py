@@ -53,7 +53,10 @@ class RuleManager(object):
 
         # dict of items like [("de_de", <inner_dict1>), ...]
         # where inner_dict1 consists of items like [(<label_str>, <tag_object>), ...]
-        self.tag_label_map: Dict[str, dict] = defaultdict(dict)
+        self.label_tag_map: Dict[str, dict] = defaultdict(dict)
+
+        # dict of inverse dicts. inner_dicts consists of items like [(<tag_object.iri>, <label_str>), ...]
+        self.tag_iri_label_map: Dict[str, dict] = defaultdict(dict)
 
         self._get_tags()
 
@@ -92,7 +95,10 @@ class RuleManager(object):
         for te in tag_entities:
             for lc in LANGUAGE_CODES:
                 label = self._get_label_with_lc(te, lc)
-                self.tag_label_map[lc][label] = te
+                self.label_tag_map[lc][label] = te
+
+                # also save the inverse mapping
+                self.tag_iri_label_map[lc][te.iri] = label
 
     @staticmethod
     def _get_label_with_lc(entity: ypo.Thing, lc: str) -> Union[str, None]:
@@ -176,7 +182,7 @@ class Directive(object):
             raise ValueError(msg)
 
         for ts in tag_strings:
-            tag_object = self.RM.tag_label_map[self.language_code].get(ts)
+            tag_object = self.RM.label_tag_map[self.language_code].get(ts)
 
             if tag_object is None:
                 print(util.yellow("Unmatched tag string:"), f'"{ts}"')

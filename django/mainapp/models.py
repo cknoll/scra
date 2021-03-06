@@ -30,10 +30,14 @@ class Tag(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1000, null=True, blank=False)
 
+    # this is to handle localized tag names:
+    label = models.CharField(max_length=1000, null=True, blank=False)
+
 
 class Directive(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1000, null=True, blank=False)
+    text = models.CharField(max_length=10000, null=True, blank=True)
     source_document = models.ForeignKey(SourceDocument, on_delete=models.CASCADE, null=False)
     tags = models.ManyToManyField(Tag)
     section = models.CharField(
