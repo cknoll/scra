@@ -138,7 +138,8 @@ class RuleManager(object):
             doc_ref = python_directive.get_doc_ref()
 
             # now create the ontological object
-            owl_directive = self.om.n.Directive(name=python_directive.name, X_hasDocumentReference_RC=[doc_ref])
+            owl_directive = self.om.n.Directive(name=python_directive.name, X_hasDocumentReference_RC=[doc_ref],
+                                                hasDirectiveText=python_directive.text)
 
             python_directive.add_restrictions_for_tags(owl_directive)
 
@@ -148,6 +149,9 @@ class RuleManager(object):
 
 
 class Directive(object):
+    """
+    Auxiliary class which helps to transform the content of the yml-file (-> inner_rule_dict) to an OWL-object.
+    """
     def __init__(
         self, rule_manager: RuleManager, inner_rule_dict: dict, source_doc: ypo.Thing, counter: int, language_code: str
     ):
@@ -156,11 +160,13 @@ class Directive(object):
         self.source_doc = source_doc
         self.counter = counter
         self.language_code = language_code
+        self.text = None
 
         self.section = inner_rule_dict["section"]
         self.name = f"{self.source_doc.name}_{counter:03d}"
 
         self.tags: List[ypo.Thing] = []
+        self._get_text()
         self._get_tags()
 
     def get_doc_ref(self):
@@ -169,6 +175,9 @@ class Directive(object):
         )
 
         return doc_ref
+
+    def _get_text(self) -> None:
+        self.text = self.inner_rule_dict.get("text", "")
 
     def _get_tags(self) -> None:
         """

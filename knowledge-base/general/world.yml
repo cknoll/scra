@@ -209,6 +209,13 @@
         Characteristics:
               - Functional
 
+- owl_data_property:
+    hasDirectiveText:
+        Domain: Directive
+        Range: str
+        Characteristics:
+              - Functional
+
 # ######################################################################################################################
 
 - swrl_rule:

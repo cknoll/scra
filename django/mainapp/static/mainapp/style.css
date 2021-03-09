@@ -181,7 +181,7 @@ form ul {
     padding: 0;
     margin: 0;
 }
-  
+
 form li + li {
     margin-top: 1em;
 }
@@ -221,3 +221,8 @@ padding-left: 90px; /* same size as the label elements */
 margin-left: .5em;
 }
 
+
+.directive-text {
+    background-color: rgba(240, 240, 240, 1);
+    padding: 5px;
+}

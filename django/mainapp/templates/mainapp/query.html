@@ -12,7 +12,12 @@ Resulting Direcitves for  {{result_ge.name}}:
 <h4>Directives:</h4>
 <ol>
 {% for directive in directive_list %}
-    <li>{{directive.repr}}</li>
+    <li>
+        {{directive.repr}}
+        <div class="directive-text">
+            {{directive.text}}
+        </div>
+    </li>
 
 
 {% endfor %}

@@ -32,6 +32,7 @@ class TestMainApp1(TestCase):
 
         r = models.Directive.objects.filter(name__startswith="COVID19_rules_of_saxony").first()
         self.assertEqual(len(r.tags.all()), 3)
+        self.assertTrue("Maskenpflicht" in r.text)
 
     def test_query_without_tags(self):
         call_command("populate_db_from_ontology", flush=True)

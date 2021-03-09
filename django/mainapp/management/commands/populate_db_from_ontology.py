@@ -142,6 +142,9 @@ class Command(BaseCommand):
             else:
                 return None
 
+        def get_text(entity):
+            return entity.hasDirectiveText
+
         def add_tags(dr_entity):
             """
             returns a list of django_tag_objects for the supplied Directive-instance
@@ -164,7 +167,12 @@ class Command(BaseCommand):
         # add_tags(list(dr_entities)[-2])
 
         django_directive_entities = convert_entities(
-            models.Directive, dr_entities, source_document=get_source_doc, section=get_section, tags=add_tags
+            models.Directive,
+            dr_entities,
+            source_document=get_source_doc,
+            section=get_section,
+            tags=add_tags,
+            text=get_text,
         )
 
         # associate the directives to the GeographicEntities (assuming successful reasoning has been performed)
