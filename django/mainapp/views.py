@@ -1,18 +1,31 @@
+import os
+
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseServerError, HttpResponseRedirect
 from django.views import View
+from django.conf import settings
 from . import models
 from . import core
+
+
 from ipydex import IPS
 
 
-def home_page_view(request):
+def static_md_view(request, md_fname=None):
+
+    assert md_fname.endswith("md")
+    path = os.path.join(settings.BASE_DIR, "mainapp", "md_content", md_fname)
+    try:
+
+        with open(path, "r") as txtfile:
+            md_src = txtfile.read()
+    except FileNotFoundError:
+        return HttpResponseServerError(f"File not found: {md_fname}")
 
     all_ge = models.GeographicEntity.objects.all()
+    context = {"title": "Title", "md_src": md_src, "all_ge": all_ge}
 
-    context = {"all_ge": all_ge}
-
-    return render(request, "mainapp/landing.html", context)
+    return render(request, "mainapp/md_view.html", context)
 
 
 class QueryView(View):

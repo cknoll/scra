@@ -1,0 +1,24 @@
+{% extends "mainapp/base.html" %}
+{% load extra_filters %}
+{% load bleach_tags %}
+
+{% block content %}
+
+{# unit test comment #}
+<!--utc_md_view-->
+
+{{md_src|render_markdown|bleach}}
+
+
+<h3>Geographic Entities (for debugging)</h3>
+
+<ol>
+{% for ge in all_ge %}
+<li>{{ge.name}}</li>
+{% endfor%}
+
+</ol>
+
+
+
+{% endblock  %}
