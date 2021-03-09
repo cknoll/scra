@@ -2,7 +2,8 @@ from django.test import TestCase
 from django.urls import reverse
 from . import unittest_helpers as uh
 from . import models, core
-from django.core.management import call_command
+
+# noinspection PyUnresolvedReferences
 from ipydex import IPS
 
 # The tests can be run with
@@ -28,14 +29,14 @@ class TestMainApp1(TestCase):
 
     def test_populate(self):
 
-        call_command("populate_db_from_ontology", flush=True, no_reasoner=True)
+        uh.call_command_silent("populate_db_from_ontology", flush=True, no_reasoner=True)
 
         r = models.Directive.objects.filter(name__startswith="COVID19_rules_of_saxony").first()
         self.assertEqual(len(r.tags.all()), 3)
         self.assertTrue("Maskenpflicht" in r.text)
 
     def test_query_without_tags(self):
-        call_command("populate_db_from_ontology", flush=True)
+        uh.call_command_silent("populate_db_from_ontology", flush=True)
 
         url = reverse("query-page")
         res = self.client.get(url)
@@ -51,7 +52,7 @@ class TestMainApp1(TestCase):
         self.assertContains(res2, "utc_number_of_directives:7")
 
     def test_query_with_tags(self):
-        call_command("populate_db_from_ontology", flush=True)
+        uh.call_command_silent("populate_db_from_ontology", flush=True)
 
         url = reverse("query-page")
         res = self.client.get(url)
@@ -69,7 +70,7 @@ class TestMainApp1(TestCase):
 
     def test_get_directives(self):
 
-        call_command("populate_db_from_ontology", flush=True, no_reasoner=False)
+        uh.call_command_silent("populate_db_from_ontology", flush=True, no_reasoner=False)
 
         # test behaviour with tags
         res = core.get_directives("saxony", "Reisen")

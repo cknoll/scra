@@ -1,3 +1,4 @@
+from django.core.management import call_command
 from bs4 import BeautifulSoup
 
 from ipydex import IPS
@@ -107,3 +108,8 @@ def parse_json_object(response, id_value: str):
     res = json.loads(tag.contents[0])
 
     return res
+
+
+def call_command_silent(*args, **kwargs):
+    kwargs.update(silent=True)
+    call_command(*args, **kwargs)

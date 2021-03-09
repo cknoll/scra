@@ -94,6 +94,12 @@ class Command(BaseCommand):
             help="start ipython shell after finishing command (useful during testing)",
         )
 
+        parser.add_argument(
+            "--silent",
+            action="store_true",
+            help="suppress any output (useful for automatic running)",
+        )
+
     def handle(self, *args, **options):
 
         RM = scra.RuleManager(settings.PATH_KNOWLEDGEBASE)
@@ -193,4 +199,5 @@ class Command(BaseCommand):
             dd = RM.om.n.dresden
             IPS(print_tb=False)
 
-        self.stdout.write(self.style.SUCCESS("Done"))
+        if not options.get("silent"):
+            self.stdout.write(self.style.SUCCESS("Done"))
