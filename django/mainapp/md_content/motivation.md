@@ -1,0 +1,6 @@
+<!-- copied from README of main repo -->
+## Motivation
+
+The COVID-19 pandemic affects many countries all over the world. With aim of containment most countries have put adopted a *set of rules* which restricts every days life. Moreover, the rules may vary considerably not only *between* countries but also *within* countries. Communicating such rules to the population is nontrivial, especially as the rules may change over time and also the regions where which rules apply. Media coverage often concentrates on "interesting" differences and suggested legislation updates which are discussed but not (yet) valid. The actutal legal documents are often impractical for most people (too long, too complicated, low relevance density). All this potential confusion which rules actually apply. Confusion, however, harms compliance with the rules and thus contributes to less effective containment and thus more societal and individual damage.
+
+SCRA aims to mitigate these issues by providing a medium for simple, clear traceable communication of those rules which are currently relevant to the user. This is done by providing a simple web front end for accessing a knowledge base which contains a semantic representation of the rules.

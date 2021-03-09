@@ -1,13 +1,22 @@
 {% extends "mainapp/base.html" %}
+{% load extra_filters %}
+{% load bleach_tags %}
 
 {% block content %}
+
+{# used for the landing page (and maybe others) #}
+{% if landingpage %}
+    {{md_src|render_markdown|bleach}}
+
+<hr class="hr_style_gradient opacity30">
+{% endif %}
 
 {# unit test comment #}
 <!--utc_query_page-->
 
 {% if result_ge %}
 <p>
-Resulting Direcitves for  {{result_ge.name}}:
+Resulting Direcitves for region <span class="entity-name">{{result_ge.name}}</span> :
 </p>
 <h4>Directives:</h4>
 <ol>
@@ -29,7 +38,11 @@ Resulting Direcitves for  {{result_ge.name}}:
 <hr class="hr_style_gradient opacity30">
 {% endif %}
 
+{% if landingpage %}
+<h3>Try it out</h3>
+{% else %}
 <h3>New Query</h3>
+{% endif %}
 
 
 <form action="" method="post" class="form-horizontal">
@@ -56,6 +69,22 @@ Resulting Direcitves for  {{result_ge.name}}:
     </div>
 
 </form>
+
+<br>
+<br>
+<hr class="hr_style_gradient opacity30">
+
+<h3>Search hints</h3>
+
+Unless there is proper autocompletion here is a list of all search-relevant entities:
+
+<h4>Regions (GeographicEntities)</h4>
+
+{% for ge in all_ge %} <span class="entity-name">{{ge.name}}</span> {% endfor%}
+
+<h4>Tags</h4>
+
+{% for tag in all_tags %}<span class="entity-name">{{tag.label}}</span> {% endfor%}
 
 
 

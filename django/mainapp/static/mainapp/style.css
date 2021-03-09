@@ -1,3 +1,8 @@
+:root {
+    --color-gray-bg1: rgba(240, 240, 240, 1);
+}
+
+
 #content-container {
 
 /*  vh means viewport heigt; also account for footer    */
@@ -223,6 +228,11 @@ margin-left: .5em;
 
 
 .directive-text {
-    background-color: rgba(240, 240, 240, 1);
+    background-color: var(--color-gray-bg1);
     padding: 5px;
+}
+
+.entity-name {
+    background-color: var(--color-gray-bg1);
+    font-family: monospace;
 }

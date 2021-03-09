@@ -1,7 +1,32 @@
+import os
+from django.conf import settings
 from . import models
+
+# noinspection PyUnresolvedReferences
 from ipydex import IPS
 
+
 from django.shortcuts import get_object_or_404
+
+MD_CONTENT_PATH = os.path.join(settings.BASE_DIR, "mainapp", "md_content")
+
+
+def get_md_content(md_fname: str) -> str:
+
+    assert md_fname.endswith("md")
+    path = os.path.join(MD_CONTENT_PATH, md_fname)
+
+    with open(path, "r") as txtfile:
+        md_src = txtfile.read()
+
+    return md_src
+
+
+def update_with_search_hints(context):
+
+    all_ge = models.GeographicEntity.objects.all()
+    all_tags = models.Tag.objects.all()
+    context.update(all_ge=all_ge, all_tags=all_tags)
 
 
 def get_directives_for_ge(ge_name: str) -> list:
