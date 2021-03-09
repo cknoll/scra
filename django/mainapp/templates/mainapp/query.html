@@ -18,6 +18,9 @@ Resulting Direcitves for  {{result_ge.name}}:
 {% endfor %}
 </ol>
 <!--utc_number_of_directives:{{directive_list|length}}-->
+
+{{ directive_list|length|json_script:"directive_list_length" }}
+
 <hr class="hr_style_gradient opacity30">
 {% endif %}
 
@@ -32,9 +35,9 @@ Resulting Direcitves for  {{result_ge.name}}:
     <div class="form-group">
         <input class="form-input" type="text" id="region" name="GeographicEntity" placeholder="region">
         <br/>
-        <input class="form-input" type="text" id="tag1" name="foo1" placeholder="tag">
+        <input class="form-input" type="text" id="tag1" name="tag1" placeholder="tag">
         <br/>
-        <input class="form-input" type="text" id="tag2" name="foo1" placeholder="tag">
+        <input class="form-input" type="text" id="tag2" name="tag2" placeholder="tag">
 
 
     </div>

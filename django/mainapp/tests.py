@@ -49,10 +49,28 @@ class TestMainApp1(TestCase):
         res2 = self.client.post(url, post_data)
         self.assertContains(res2, "utc_number_of_directives:7")
 
+    def test_query_with_tags(self):
+        call_command("populate_db_from_ontology", flush=True)
+
+        url = reverse("query-page")
+        res = self.client.get(url)
+        self.assertEquals(res.status_code, 200)
+        self.assertContains(res, "utc_query_page")
+
+        form = uh.get_first_form(res)
+
+        form_values = {"GeographicEntity": "saxony", "tag1": "Reisen", "tag2": ""}
+        post_data = uh.generate_post_data_for_form(form, spec_values=form_values)
+
+        res2 = self.client.post(url, post_data)
+        dll = uh.parse_json_object(res2, "directive_list_length")
+        self.assertEqual(dll, 3)
+
     def test_get_directives(self):
 
         call_command("populate_db_from_ontology", flush=True, no_reasoner=False)
 
+        # test behaviour with tags
         res = core.get_directives("saxony", "Reisen")
 
         self.assertEquals(len(res), 3)

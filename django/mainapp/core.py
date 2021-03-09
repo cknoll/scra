@@ -35,6 +35,9 @@ def get_directives(ge_name: str, *taglist) -> list:
     directive_list = ge.applying_directives.all()
     matching_tags = models.Tag.objects.all().filter(label__in=[*taglist])
 
-    result = directive_list.filter(tags__in=matching_tags)
+    if taglist:
+        result = directive_list.filter(tags__in=matching_tags)
+    else:
+        result = directive_list
 
     return list(result)

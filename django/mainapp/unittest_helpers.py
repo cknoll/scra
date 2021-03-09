@@ -1,5 +1,8 @@
 from bs4 import BeautifulSoup
 
+from ipydex import IPS
+import json
+
 
 def get_first_form(response):
     """
@@ -62,8 +65,12 @@ def generate_post_data_for_form(form, default_value="xyz", spec_values=None):
 
     fields, hidden_fields = get_form_fields_to_submit(form)
 
+    all_field_names = []
+
     post_data = {}
     for f in hidden_fields:
+        name = f.attrs.get("name")
+        all_field_names.append(name)
         post_data[f.attrs["name"]] = f.attrs["value"]
 
     for f in fields:
@@ -72,6 +79,7 @@ def generate_post_data_for_form(form, default_value="xyz", spec_values=None):
         if name is None:
             # ignore fields without a name (relevant for dropdown checkbox)
             continue
+        all_field_names.append(name)
 
         if name.startswith("captcha"):
             # special case for captcha fields (assume CAPTCHA_TEST_MODE=True)
@@ -79,6 +87,23 @@ def generate_post_data_for_form(form, default_value="xyz", spec_values=None):
         else:
             post_data[name] = default_value
 
+    # ensure that the keys of spec_values indeed refer to form field names:
+
+    spec_keys = set(spec_values.keys())
+    assert spec_keys.difference(all_field_names) == set()
+
     post_data.update(spec_values)
 
     return post_data
+
+
+def parse_json_object(response, id_value: str):
+    bs = BeautifulSoup(response.content, "html.parser")
+    tag = bs.find("script", attrs={"id": id_value})
+
+    assert tag
+    assert len(tag.contents) == 1
+
+    res = json.loads(tag.contents[0])
+
+    return res

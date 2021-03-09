@@ -26,8 +26,11 @@ class QueryView(View):
         if not ge_str:
             return redirect(reverse("query-page"))
 
+        tag_strings = [value for key, value in request.POST.items() if key.startswith("tag") and value]
+        directives = core.get_directives(ge_str, *tag_strings)
+
         ge = models.GeographicEntity.objects.filter(name=ge_str).first()
-        context = {"result_ge": ge, "directive_list": core.get_directives_for_ge(ge_str)}
+        context = {"result_ge": ge, "directive_list": directives}
 
         return render(request, "mainapp/query.html", context)
 
