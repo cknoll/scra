@@ -11,24 +11,48 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
 
-# this is the base dir of the django project (where manage.py lives)
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-PATH_KNOWLEDGEBASE = os.path.join(os.path.dirname(BASE_DIR), "knowledge-base")
+import deploymentutils as du
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+# DEVMODE should be False by default.
+# Exceptions: 'runserver' command or explicitly set by ENV-Variable
+# for  some management commands (on the production server) we want to explicitly switch off DEVMODE
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "79+i(fmz-9-aiztl(bd1=qm!c=g)nqnkc!&_j+d^==g+b7bo8!"
+# export DJANGO_DEVMODE=True; py3 manage.py <some_command>
+env_devmode = os.getenv("DJANGO_DEVMODE")
+if env_devmode is None:
+    DEVMODE = "runserver" in sys.argv
+else:
+    DEVMODE = env_devmode.lower() == "true"
+
+
+config = du.get_nearest_config("config.ini", devmode=DEVMODE)
+
+# this is where `manage.py` lives
+DJANGO_BASEDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# this is one level above
+PROJECT_BASEDIR = os.path.dirname(DJANGO_BASEDIR)
+
+
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = []
+# prevent accidentally using DEBUG == "False" (which evaluates to `True`)
+assert DEBUG in (True, False)
+assert DEVMODE in (True, False)
+
+BASEURL = config("BASEURL")
+
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=config.Csv())
+
+
+PATH_KNOWLEDGEBASE = config("PATH_KNOWLEDGEBASE").replace("__PROJECT_BASEDIR__", PROJECT_BASEDIR)
+STATIC_ROOT = config("STATIC_ROOT").replace("__PROJECT_BASEDIR__", PROJECT_BASEDIR)
 
 
 # Application definition
@@ -85,7 +109,7 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "NAME": os.path.join(DJANGO_BASEDIR, "db.sqlite3"),
     }
 }
 

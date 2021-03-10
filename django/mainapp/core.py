@@ -8,7 +8,7 @@ from ipydex import IPS
 
 from django.shortcuts import get_object_or_404
 
-MD_CONTENT_PATH = os.path.join(settings.BASE_DIR, "mainapp", "md_content")
+MD_CONTENT_PATH = os.path.join(settings.DJANGO_BASEDIR, "mainapp", "md_content")
 
 
 def get_md_content(md_fname: str) -> str:
