@@ -15,10 +15,19 @@
 <!--utc_query_page-->
 
 {% if result_ge %}
+
+
+
 <p>
 Resulting Direcitves for region <span class="entity-name">{{result_ge.name}}</span> :
 </p>
 <h4>Directives:</h4>
+<hr class="hr_style_gradient opacity30">
+<div style="padding:2em;">
+<span style="color: red;">This web service currently is just demonstrator of an acaedemic experiment. The information which can be retrieved by it have no actual real meaning. <strong>Do not make any Corona-rule-based decision which relies on data from this platform!</strong></span> Keep yourself informed on what is allowed in your region via official sources.
+<hr class="hr_style_gradient opacity30">
+</div>
+
 <ol>
 {% for directive in directive_list %}
     <li>

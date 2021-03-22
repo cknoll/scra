@@ -175,12 +175,7 @@ BLEACH_ALLOWED_TAGS = [
     "pre",
     "code",
     "script",
-    "table",
-    "th",
-    "tr",
-    "td",
-    "thead",
-    "tbody",
+    "span"
 ]
 
 
@@ -200,5 +195,6 @@ def allow_attributes(tag, name, value):
 
 
 BLEACH_ALLOWED_ATTRIBUTES = allow_attributes
+BLEACH_ALLOWED_STYLES = ["color"]
 BLEACH_STRIP_TAGS = False
 BLEACH_STRIP_COMMENTS = False
