@@ -28,7 +28,12 @@ else:
     DEVMODE = env_devmode.lower() == "true"
 
 
-config = du.get_nearest_config("config.ini", devmode=DEVMODE)
+if os.getenv("SCRA_USE_EXAMPLE_CONFIG", "").lower() == "true":
+    print(du.yellow("Note:"), "could not find `config.ini`. Using example file instead.")
+    config = du.get_nearest_config("../deployment/config_example.ini", devmode=DEVMODE)
+else:
+    config = du.get_nearest_config("config1.ini", devmode=DEVMODE)
+
 
 # this is where `manage.py` lives
 DJANGO_BASEDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -46,6 +51,7 @@ DEBUG = config("DEBUG", cast=bool)
 assert DEBUG in (True, False)
 assert DEVMODE in (True, False)
 
+
 BASEURL = config("BASEURL")
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=config.Csv())
@@ -53,6 +59,12 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=config.Csv())
 
 PATH_KNOWLEDGEBASE = config("PATH_KNOWLEDGEBASE").replace("__PROJECT_BASEDIR__", PROJECT_BASEDIR)
 STATIC_ROOT = config("STATIC_ROOT").replace("__PROJECT_BASEDIR__", PROJECT_BASEDIR)
+
+if 0:
+    from ipydex import IPS, activate_ips_on_exception
+    activate_ips_on_exception()
+    IPS()
+    1/0
 
 
 # Application definition
