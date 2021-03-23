@@ -8,6 +8,20 @@ Complete deployment should (at best) be a onliner.
 
 ## How to deploy `moodpoll` locally:
 
+- Clone the repo, setup a virtual environment if needed
+- `pip install requirements.txt`
+- `python manage.py populate_db_from_ontology`
+- `python manage.py runserver`
+
+
+## How to deploy  on a remote server ([uberspace](https://uberspace.de/)):
+
+Note: We describe deployment on uberspace because from what we know it provides the lowest hurdle to test (and run) the webapp. Probably there are other equivalent or even better hosters out there.
+
+### Preparation
+
+Assumption: The deployment is run from a unix-like system. It is tested on Debian GNU/Linux, version 10.
+
 - Ensure you have this directory structure:
 
 ```
@@ -28,17 +42,9 @@ Complete deployment should (at best) be a onliner.
     │   └── ...
     │
     ├── config.ini                         ← contains the project configuration (must be located outside the repo)
-    ├── local_testing/                     ← will be auto-created by deploy.py
+    │                                        (see deployment/config_example.ini)   
     └── ...
 ```
-
-## How to deploy  on a remote server ([uberspace](https://uberspace.de/)):
-
-Note: We describe deployment on uberspace because from what we know it provides the lowest hurdle to test (and run) the webapp. Probably there are other equivalent or even better hosters out there.
-
-### Preparation
-
-Assumption: The deployment is run from a unix-like system. It is tested on Debian GNU/Linux, version 10.
 
 - Create an [uberspace](https://uberspace.de)-account (first month is free), then pay what you like.
 - Set up your ssh key in the webfrontend

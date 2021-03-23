@@ -4,8 +4,8 @@
 # Semantic Corona Rule Assistant (SCRA)
 
 **Important Notices**:
-- This project is currently in experimental early development an not ready for production!
-- Obviously, the "knowledge" in this repository is at most as trustworthy as those who have write access to this repository. Especially, the assertions documented in this repository must not be interpreted as legal advice.
+- This project is currently in experimental early development an **not ready for production**!
+- Obviously, the "knowledge" in this repository is at most as trustworthy as those who have write access to this repository. Especially, the assertions documented in this repository **must not be interpreted as legal advice**.
 
 
 ## Motivation
