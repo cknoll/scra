@@ -5,3 +5,4 @@ ipydex
 django-bleach
 markdown
 beautifulsoup4
+deploymentutils>=0.1.0
