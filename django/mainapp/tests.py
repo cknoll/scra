@@ -49,7 +49,10 @@ class TestMainApp1(TestCase):
         post_data = uh.generate_post_data_for_form(form, spec_values=form_values)
 
         res2 = self.client.post(url, post_data)
-        self.assertContains(res2, "utc_number_of_directives:7")
+        dll = uh.parse_json_object(res2, "directive_list_length")
+
+        # two for germany and two for saxony
+        self.assertEqual(dll, 4)
 
     def test_query_with_tags(self):
         uh.call_command_silent("populate_db_from_ontology", flush=True)

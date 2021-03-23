@@ -293,17 +293,6 @@
                 - bavaria
                 - saxony
 
-# some dummy directives
-- owl_multiple_individuals:
-    types:
-        - Directive
-    names:
-        - dir_rule1
-        - dir_rule2
-        - dir_rule3
-        - dir_rule4
-        - dir_rule5
-
 
 - owl_individual:
     LV_Sn_CoViD:
@@ -337,28 +326,3 @@
                   - bavaria
             - law_book_of_dresden:
                 - dresden
-
-- relation_concept_facts:
-    dir_rule1:
-        # ternary relation. Meaning: <Directive dir_rule1>  is specified in "§1.3" of law_book_of_germany
-        X_hasDocumentReference_RC:
-            - hasSourceDocument: law_book_of_germany
-              hasSection: "§ 1.1"
-
-    dir_rule2:
-        X_hasDocumentReference_RC:
-            - hasSourceDocument: LV_Sn_CoViD
-              hasSection: "§ 1.5"
-
-    dir_rule3:
-        X_hasDocumentReference_RC:
-            - hasSourceDocument: law_book_of_dresden
-              hasSection: "§ 42"
-    dir_rule4:
-        X_hasDocumentReference_RC:
-            - hasSourceDocument: law_book_of_irrelevance
-              hasSection: "§ 100"
-    dir_rule5:
-        X_hasDocumentReference_RC:
-            - hasSourceDocument: LV_Sn_CoViD
-              hasSection: "§ 123"
